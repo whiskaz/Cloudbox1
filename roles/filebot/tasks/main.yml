@@ -8,24 +8,24 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-# - name: Check filebot-monitor service exists
-#   stat:
-#     path: "/etc/systemd/system/filebot-monitor.service"
-#   register: filebot_monitor_service
+- name: Check filebot-monitor service exists
+  stat:
+    path: "/etc/systemd/system/filebot-monitor.service"
+  register: filebot_monitor_service
 
-# - name: Stop existing filebot-monitor service
-#   systemd: state=stopped name=filebot-monitor
-#   when: filebot-filebot_monitor_service.stat.exists
+- name: Stop existing filebot-monitor service
+  systemd: state=stopped name=filebot-monitor
+  when: filebot_monitor_service.stat.exists
 
 - name: Create filebot directories
   file: "path={{item}} state=directory mode=0775 owner={{user}} group={{user}} recurse=yes"
   with_items:
-    - /opt/filebot-test
+    - /opt/filebot
 
 - name: Clone filebot (custom build)
   git:
     repo: https://{{ bitbucket.user | urlencode }}:{{ bitbucket.pass | urlencode }}@bitbucket.org/whiskaz/fb_build/
-    dest: /opt/filebot-test
+    dest: /opt/filebot
     version: master
     force: yes
   become: yes
@@ -34,7 +34,7 @@
 - name: Import monitor.sh
   copy:
     src: "monitor.sh"
-    dest: "/opt/filebot-test/bin/monitor.sh"
+    dest: "/opt/filebot/bin/monitor.sh"
     owner: "{{user}}"
     group: "{{user}}"
     mode: 0775
@@ -42,7 +42,7 @@
 
 - name: Check config exists
   stat:
-    path: "/opt/filebot-test/bin/monitor.cfg"
+    path: "/opt/filebot/bin/monitor.cfg"
   register: filebot_monitor_config
 
 - name: Import Plex Auth Token role
@@ -58,7 +58,7 @@
 - name: Import default config
   template:
     src: monitor.cfg.js2
-    dest: /opt/filebot-test/bin/monitor.cfg
+    dest: /opt/filebot/bin/monitor.cfg
     owner: "{{user}}"
     group: "{{user}}"
     mode: 0775
@@ -67,32 +67,32 @@
 
 - name: Set monitor.sh as executable
   file:
-    path: /opt/filebot-test/bin/monitor.sh
+    path: /opt/filebot/bin/monitor.sh
     owner: "{{user}}"
     group: "{{user}}"
     mode: a+x
 
 - name: Set filebot.sh as executable
   file:
-    path: /opt/filebot-test/bin/filebot.sh
+    path: /opt/filebot/bin/filebot.sh
     owner: "{{user}}"
     group: "{{user}}"
     mode: a+x
 
 - name: Set directory permissions
-  file: "path=/opt/filebot-test state=directory owner={{user}} group={{user}} recurse=yes"
+  file: "path=/opt/filebot state=directory owner={{user}} group={{user}} recurse=yes"
 
-# - name: "Create /usr/local/bin symlink"
-#   file:
-#     src: "/opt/filebot/bin/filebot.sh"
-#     dest: "/usr/local/bin/filebot"
-#     state: link
+- name: "Create /usr/local/bin symlink"
+  file:
+    src: "/opt/filebot/bin/filebot.sh"
+    dest: "/usr/local/bin/filebot"
+    state: link
 
-# - name: Import filebot-monitor service
-#   template:
-#     src: filebot-monitor.service.js2
-#     dest: /etc/systemd/system/filebot-monitor.service
-#     force: yes
+- name: Import filebot-monitor service
+  template:
+    src: filebot-monitor.service.js2
+    dest: /etc/systemd/system/filebot-monitor.service
+    force: yes
 
-# - name: Start filebot-monitor service
-#   systemd: state=started name=filebot-monitor daemon_reload=yes enabled=yes
+- name: Start filebot-monitor service
+  systemd: state=started name=filebot-monitor daemon_reload=yes enabled=yes
