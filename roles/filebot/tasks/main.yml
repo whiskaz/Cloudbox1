@@ -44,7 +44,7 @@
 - name: "Set 'plexconfig' variable"
   set_fact:
     plexconfig: "plex=localhost:{{plex_auth_token}}"
-  when: plex_account_enabled and not file_monitor_config.stat.exists 
+  when: plex_account_enabled and not filebot_monitor_config.stat.exists 
 
 - name: Import default config
   template:
