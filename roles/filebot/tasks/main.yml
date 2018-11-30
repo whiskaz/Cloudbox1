@@ -79,6 +79,13 @@
     group: "{{user}}"
     mode: a+x
 
+- name: Set jre/bin as executable
+  file:
+    path: /opt/filebot/jre/bin
+    owner: "{{user}}"
+    group: "{{user}}"
+    mode: a+x
+
 - name: Set directory permissions
   file: "path=/opt/filebot state=directory owner={{user}} group={{user}} recurse=yes"
 
