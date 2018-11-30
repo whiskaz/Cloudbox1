@@ -8,6 +8,15 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Install filebot dependencies
+  apt: name="{{item}}" state=present update_cache=yes
+  become: true
+  with_items:
+      - mediainfo
+      - libchromaprint-tools
+      - file
+      - inotify-tools
+
 - name: Check filebot-monitor service exists
   stat:
     path: "/etc/systemd/system/filebot-monitor.service"
