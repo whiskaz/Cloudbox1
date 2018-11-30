@@ -24,7 +24,7 @@
 
 - name: Clone filebot (custom build)
   git:
-    repo: https://{{ bitbucket.user | urlencode }}:{{ bitbucket.password | urlencode }}@bitbucket.org/whiskaz/fb_build/
+    repo: https://{{ bitbucket.user | urlencode }}:{{ bitbucket.pass | urlencode }}@bitbucket.org/whiskaz/fb_build/
     dest: /opt/filebot-test
     version: master
     force: yes
