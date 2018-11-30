@@ -8,7 +8,7 @@ OUTPUT_DIR="/mnt/local/Media"
 MEDIA_DIRS=(${MEDIA_DIRS[@]/#/$WATCH_BASE/})
 QUOTE_FIXER='replaceAll(/[\`\u00b4\u2018\u2019\u02bb]/, "'"'"'").replaceAll(/[\u201c\u201d]/, '"'"'""'"'"')'
 echo "Monitoring: ${MEDIA_DIRS[@]}" >> $LOG_FILE
-inotifywait ${MEDIA_DIRS[@]} -m -e create -e moved_to -e modify --exclude '(/_unpack)\|/[.@])' --format '%w%f' | stdbuf -oL uniq | while read -r FILE; do
+inotifywait ${MEDIA_DIRS[@]} -m -e create -e moved_to -e modify --exclude '/[.@]' --format '%w%f' | stdbuf -oL uniq | while read -r FILE; do
     echo "###########################################################################" >> $LOG_FILE
     echo "New item: "$FILE"" >> $LOG_FILE
     RETRIES=0
@@ -29,6 +29,7 @@ inotifywait ${MEDIA_DIRS[@]} -m -e create -e moved_to -e modify --exclude '(/_un
 
                 FOLDER=$(echo "$FILE" | grep -o "Movies[^/]*\|TV[^/]*")
                 LABEL=""
+                
                 case "$FOLDER" in
                 *Movie*)
                     LABEL="Movie"
@@ -37,6 +38,7 @@ inotifywait ${MEDIA_DIRS[@]} -m -e create -e moved_to -e modify --exclude '(/_un
                     LABEL="TV"
                     ;;
                 esac
+
                 "$FILEBOT_HOME/bin/filebot.sh" \
                 -script fn:amc \
                 --action move \

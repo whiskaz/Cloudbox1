@@ -40,6 +40,15 @@
   become: yes
   become_user: "{{user}}"
 
+- name: Import filebot.sh
+  copy:
+    src: "filebot.sh"
+    dest: "/opt/filebot/bin/filebot.sh"
+    owner: "{{user}}"
+    group: "{{user}}"
+    mode: 0775
+    force: yes
+
 - name: Import monitor.sh
   copy:
     src: "monitor.sh"
