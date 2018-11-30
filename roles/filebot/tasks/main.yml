@@ -85,7 +85,7 @@
     owner: "{{user}}"
     group: "{{user}}"
     mode: 0755
-    state=directory
+    state: directory
     recurse: yes
 
 - name: Set directory permissions
