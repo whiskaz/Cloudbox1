@@ -84,7 +84,8 @@
     path: /opt/filebot/jre/bin
     owner: "{{user}}"
     group: "{{user}}"
-    mode: a+x
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes
 
 - name: Set directory permissions
   file: "path=/opt/filebot state=directory owner={{user}} group={{user}} recurse=yes"
