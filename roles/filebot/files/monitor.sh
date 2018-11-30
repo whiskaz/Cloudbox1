@@ -1,6 +1,6 @@
 #!/bin/bash
-. monitor.cfg
 FILEBOT_HOME="/opt/filebot"
+. "$FILEBOT_HOME/bin/monitor.cfg"
 LOG_FILE="$FILEBOT_HOME/monitor.log"
 WATCH_BASE="/mnt/local/downloads/nzbs/nzbget/completed"
 OUTPUT_DIR="/mnt/local/Media"
