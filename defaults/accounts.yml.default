@@ -4,6 +4,9 @@ passwd: password123
 domain: testcloudbox.ml
 email: your@email.com
 cloudflare_api_token:
+bitbucket:
+  user:
+  pass:
 plex:
   user:
   pass:

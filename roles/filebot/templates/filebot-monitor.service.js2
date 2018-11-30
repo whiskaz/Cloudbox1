@@ -1,0 +1,18 @@
+# /etc/systemd/system/filebot-monitor.service
+
+[Unit]
+Description=FileBot-Monitor
+After=network-online.target
+
+[Service]
+User={{user}}
+Group={{user}}
+Type=simple
+ExecStartPre=/bin/sleep 10
+ExecStart=/bin/bash /opt/filebot/bin/monitor.sh
+ExecStop=/usr/bin/pkill -f -9 /opt/filebot/bin/monitor
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
