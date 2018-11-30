@@ -31,6 +31,15 @@
   become: yes
   become_user: "{{user}}"
 
+- name: Import monitor.sh
+  copy:
+    src: "monitor.sh"
+    dest: "/opt/filebot-test/bin/monitor.sh"
+    owner: "{{user}}"
+    group: "{{user}}"
+    mode: 0775
+    force: yes
+
 - name: Check config exists
   stat:
     path: "/opt/filebot-test/bin/monitor.cfg"
