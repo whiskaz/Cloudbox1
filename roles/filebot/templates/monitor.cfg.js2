@@ -1,0 +1,3 @@
+MEDIA_DIRS=("Movies" "Movies4K" "MoviesRemux")
+MAX_RETRIES=20
+PLEX_CONFIG="{{ plexconfig | default('') }}"
