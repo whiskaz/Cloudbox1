@@ -27,7 +27,7 @@ inotifywait ${MEDIA_DIRS[@]} -m -e create -e moved_to -e modify --exclude '/[.@]
         # e.g. video.mp4: video/mp4
         if file --mime-type "$FILE" | egrep "directory|video|audio|empty|octet-stream"; then
 
-                FOLDER=$(echo "$FILE" | grep -o "(?<=\/)(Movies.*?|TV.*)(?=\/)")
+                FOLDER=$(echo "$FILE" | grep -oP "(?<=\/)(Movies.*?|TV.*)(?=\/)")
                 LABEL=""
                 
                 case "$FOLDER" in
